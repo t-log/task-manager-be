@@ -15,14 +15,15 @@ public class FilterServiceImpl implements FilterService {
     FilterRepository filterRepository;
 
 
-    public List<PatientTasks>  viewDetails(){
+    public List<Map<String,String>>  viewDetails(){
+        System.out.println("The details"+filterRepository.viewDetails());
         return filterRepository.viewDetails();
     }
 
-    public PatientTasks dynamicFilter(){
-          return filterRepository.searchTasksFilter();
-
-    }
+//    public PatientTasks dynamicFilter(){
+//          return filterRepository.searchPatientTasksFilter();
+//
+//    }
 
 
 

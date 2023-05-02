@@ -20,20 +20,25 @@ public class FilterController {
 
 //    @CrossOrigin(origins = "*")
 //    @RequestMapping(value = "/filter", method = RequestMethod.POST)
-//    public PatientTasks dynamicFilter(@RequestBody RequestBodyDTO body){
+//    public RequestBodyDTO dynamicFilter(@RequestBody RequestBodyDTO body){
+//
+//        //checking whether the front end request is mapped to RequestBodyDTO type
 //        System.out.println(body.getPriority());
 //        System.out.println(body.getStatus());
 //        System.out.println(body.getPreset());
 //
-//        System.out.println(body.getPriority().get(0).get("high"));
+//        System.out.println(body.getPriority().get(1).get("medium"));
+//        System.out.println(body.getPriority().size());
+//        System.out.println("Body is "+body);
+//        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request
 //
-////        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request
-//          return filterService.dynamicFilter();
+//
+////          return filterService.dynamicFilter();
 //    }
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public List<PatientTasks> viewDetails(){
+    public List<Map<String,String>> viewDetails(){
         System.out.println("View Details as string"+filterService.viewDetails());
         return filterService.viewDetails();
     }
