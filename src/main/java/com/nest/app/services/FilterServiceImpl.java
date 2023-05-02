@@ -15,7 +15,7 @@ public class FilterServiceImpl implements FilterService {
     FilterRepository filterRepository;
 
 
-    public List<Map<String,String>> viewDetails(){
+    public List<PatientTasks>  viewDetails(){
         return filterRepository.viewDetails();
     }
 

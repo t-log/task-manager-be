@@ -29,7 +29,7 @@ import jakarta.persistence.SqlResultSetMapping;
 //                })
 //)
 
-public class PatientTasks {
+public interface PatientTasks {
 
 
 //    private int age;
@@ -44,6 +44,24 @@ public class PatientTasks {
 //    private String dueDate;
 //    private String priority;
 //    private String taskStatus;
+
+    int getName();
+    int getAge();
+    int getBedNo();
+    String getFacility();  // location in fe
+    String getFullName();
+    String getPhysicianName();
+    int getRoomNo();
+    String getUnitName();
+    String getComment();
+    String getDescription();  // task description in fe
+    String getDueDate();
+    String getPriority();
+    String getTaskStatus();
+
+
+
+
 
 }
 

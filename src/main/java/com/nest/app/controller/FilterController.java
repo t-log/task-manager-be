@@ -33,7 +33,7 @@ public class FilterController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public List<Map<String,String>> viewDetails(){
+    public List<PatientTasks> viewDetails(){
         System.out.println("View Details as string"+filterService.viewDetails());
         return filterService.viewDetails();
     }
