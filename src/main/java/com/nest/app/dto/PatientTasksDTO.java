@@ -1,10 +1,5 @@
 package com.nest.app.dto;
 
-import jakarta.persistence.ColumnResult;
-import jakarta.persistence.ConstructorResult;
-import jakarta.persistence.NamedNativeQuery;
-import jakarta.persistence.SqlResultSetMapping;
-
 
 //@NamedNativeQuery(name = "PatientTasks.viewDetails",
 //        query = "SELECT p.age, p.bed_no, p.facility, p.full_name, p.physician_name, p.room_no, p.unit_name,t.comment, t.description, t.due_date, t.priority, t.task_status FROM patient p JOIN tasks t ON p.id = t.patient_id",
@@ -29,7 +24,9 @@ import jakarta.persistence.SqlResultSetMapping;
 //                })
 //)
 
-public interface PatientTasks {
+import java.time.LocalDateTime;
+
+public interface PatientTasksDTO {
 
 
 //    private int age;
@@ -45,17 +42,17 @@ public interface PatientTasks {
 //    private String priority;
 //    private String taskStatus;
 
-    int getName();
+    //Interface DTO Projection
     int getAge();
     int getBedNo();
-    String getFacility();  // location in fe
+    String getFacility();
     String getFullName();
     String getPhysicianName();
     int getRoomNo();
     String getUnitName();
     String getComment();
-    String getDescription();  // task description in fe
-    String getDueDate();
+    String getDescription();
+    LocalDateTime getDueDate();
     String getPriority();
     String getTaskStatus();
 

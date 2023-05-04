@@ -1,12 +1,12 @@
 package com.nest.app.services;
 
-import com.nest.app.dto.PatientTasks;
+import com.nest.app.dto.PatientTasksDTO;
 import com.nest.app.repository.FilterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class FilterServiceImpl implements FilterService {
@@ -15,15 +15,13 @@ public class FilterServiceImpl implements FilterService {
     FilterRepository filterRepository;
 
 
-    public List<Map<String,String>>  viewDetails(){
-        System.out.println("The details"+filterRepository.viewDetails());
+    public List<PatientTasksDTO>  viewDetails(){
         return filterRepository.viewDetails();
     }
 
-//    public PatientTasks dynamicFilter(){
-//          return filterRepository.searchPatientTasksFilter();
-//
-//    }
+    public List<PatientTasksDTO> dynamicFilter(List<String> priority, List<String> status, LocalDateTime dateTimeNow,LocalDateTime plusPreset){
+          return filterRepository.searchPatientTasksFilter(priority,status,dateTimeNow,plusPreset);
+    }
 
 
 

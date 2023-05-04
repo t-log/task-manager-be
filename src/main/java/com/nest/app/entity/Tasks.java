@@ -1,7 +1,8 @@
 package com.nest.app.entity;
 
-import com.nest.app.dto.PatientTasks;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -15,7 +16,7 @@ public class Tasks {
     private String comment;
     private String taskStatus;
     private String priority;
-    private String dueDate;
+    private LocalDateTime dueDate;
     private int patientId;
     private boolean isDeleted;
 
@@ -23,7 +24,7 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(int id, String description, String comment, String taskStatus, String priority, String dueDate, int patientId, boolean isDeleted) {
+    public Tasks(int id, String description, String comment, String taskStatus, String priority, LocalDateTime dueDate, int patientId, boolean isDeleted) {
         this.id = id;
         this.description = description;
         this.comment = comment;
@@ -74,11 +75,11 @@ public class Tasks {
         this.priority = priority;
     }
 
-    public String getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 

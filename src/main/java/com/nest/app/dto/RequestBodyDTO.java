@@ -7,7 +7,7 @@ public class RequestBodyDTO {
 
     List<Map<String,Boolean>> priority;
     List<Map<String,Boolean>> status;
-    String preset;
+    int preset;
 
     public RequestBodyDTO(){
 
@@ -29,11 +29,11 @@ public class RequestBodyDTO {
         this.status = status;
     }
 
-    public String getPreset() {
+    public int getPreset() {
         return preset;
     }
 
-    public void setPreset(String preset) {
+    public void setPreset(int preset) {
         this.preset = preset;
     }
 
