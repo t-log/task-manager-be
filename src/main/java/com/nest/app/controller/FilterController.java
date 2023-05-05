@@ -40,32 +40,40 @@ public class FilterController {
             if(body.getPriority().get(0).get("high")){
                 priority.add("High");
             }
-            if(body.getPriority().get(1).get("medium")){
+            else if(body.getPriority().get(1).get("medium")){
                 priority.add("Medium");
             }
-            if(body.getPriority().get(2).get("low")){
+            else if(body.getPriority().get(2).get("low")){
                 priority.add("Low");
             }
+            else{
+                priority.add("");
+            }
+
             //For Status
             if(body.getStatus().get(0).get("not started")){
                 status.add("Not Started");
             }
-            if(body.getStatus().get(1).get("on hold")){
+            else if(body.getStatus().get(1).get("on hold")){
                 status.add("On Hold");
             }
-            if(body.getStatus().get(2).get("in progress")){
+            else if(body.getStatus().get(2).get("in progress")){
                 status.add("In Progress");
             }
-            if(body.getStatus().get(3).get("completed")){
+            else if(body.getStatus().get(3).get("completed")){
                 status.add("Completed");
             }
-            if(body.getStatus().get(4).get("over due")){
+            else if(body.getStatus().get(4).get("over due")){
                 status.add("Overdue");
+            }
+            else{
+                status.add("");
             }
 
             //For Preset (aka dueDate)
             DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("MMM/dd/yyyy HH:mm");
             LocalDateTime dateAndTimeNow = LocalDateTime.now();
+            LocalDateTime dateAndTimeNowPlusPreset = dateAndTimeNow.plusHours(body.getPreset());
             System.out.println("Current Date and Time is "+dateTime.format(dateAndTimeNow));
             preset.add(dateAndTimeNow);
             preset.add(dateAndTimeNow.plusHours(body.getPreset()));
@@ -79,9 +87,18 @@ public class FilterController {
 
             System.out.println("plus preset is" +trail);
 
+            //The preset Logic if Preset is not selected in fe
+            if(body.getPreset() == 0){
+                System.out.println("Preset value is "+body.getPreset());
+                dateAndTimeNow = null;
+                dateAndTimeNowPlusPreset = null;
+            }
+
+            System.out.println("Date time values after check"+dateAndTimeNow+"Plus Preset"+dateAndTimeNowPlusPreset);
+
 
 //        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request
-            return filterService.dynamicFilter(priority,status,dateAndTimeNow,dateAndTimeNow.plusHours(body.getPreset()));
+            return filterService.dynamicFilter(priority,status,dateAndTimeNow,dateAndTimeNowPlusPreset);
         }
 
         else {
