@@ -97,8 +97,30 @@ public class FilterController {
             System.out.println("Date time values after check"+dateAndTimeNow+"Plus Preset"+dateAndTimeNowPlusPreset);
 
 
-//        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request
-            return filterService.dynamicFilter(priority,status,dateAndTimeNow,dateAndTimeNowPlusPreset);
+            //criteria api
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Patient> query = builder.createQuery(Patient.class);
+            Root<Patient> root = query.from(Patient.class);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (!priorityList.isEmpty()) {
+                predicates.add(root.get("priority").in(priorityList));
+            }
+
+            if (!statusList.isEmpty()) {
+                predicates.add(root.get("status").in(statusList));
+            }
+
+            if (presetStart != null && presetEnd != null) {
+                predicates.add(builder.between(root.get("preset"), presetStart, presetEnd));
+            }
+
+            query.select(root).where(builder.and(predicates.toArray(new Predicate[] {})));
+
+            List<Patient> patients = entityManager.createQuery(query).getResultList();
+
+            return null;
         }
 
         else {
