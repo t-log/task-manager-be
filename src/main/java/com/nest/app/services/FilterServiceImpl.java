@@ -19,9 +19,9 @@ public class FilterServiceImpl implements FilterService {
         return filterRepository.viewDetails();
     }
 
-    public List<PatientTasksDTO> dynamicFilter(List<String> priority, List<String> status, LocalDateTime dateTimeNow,LocalDateTime plusPreset){
-          return filterRepository.searchPatientTasksFilter(priority,status,dateTimeNow,plusPreset);
-    }
+//    public List<PatientTasksDTO> dynamicFilter(List<String> priority, List<String> status, LocalDateTime dateTimeNow,LocalDateTime plusPreset){
+//          return filterRepository.searchPatientTasksFilter(priority,status,dateTimeNow,plusPreset);
+//    }
 
 
 

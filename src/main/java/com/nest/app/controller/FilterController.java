@@ -2,7 +2,12 @@ package com.nest.app.controller;
 
 import com.nest.app.dto.PatientTasksDTO;
 import com.nest.app.dto.RequestBodyDTO;
+import com.nest.app.entity.Patient;
+import com.nest.app.entity.Tasks;
 import com.nest.app.services.FilterServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +21,9 @@ public class FilterController {
 
     @Autowired
     FilterServiceImpl filterService;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/view", method = RequestMethod.POST)
@@ -87,40 +95,34 @@ public class FilterController {
 
             System.out.println("plus preset is" +trail);
 
-            //The preset Logic if Preset is not selected in fe
-            if(body.getPreset() == 0){
-                System.out.println("Preset value is "+body.getPreset());
-                dateAndTimeNow = null;
-                dateAndTimeNowPlusPreset = null;
-            }
-
             System.out.println("Date time values after check"+dateAndTimeNow+"Plus Preset"+dateAndTimeNowPlusPreset);
 
 
             //criteria api
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Patient> query = builder.createQuery(Patient.class);
+            CriteriaQuery<PatientTasksDTO> query = builder.createQuery(PatientTasksDTO.class);
             Root<Patient> root = query.from(Patient.class);
+            Join<Patient, Tasks> tasks = root.join();
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if (!priorityList.isEmpty()) {
-                predicates.add(root.get("priority").in(priorityList));
+            if (!body.getPriority().isEmpty()) {
+                predicates.add(root.get("priority").in(priority));
             }
 
-            if (!statusList.isEmpty()) {
-                predicates.add(root.get("status").in(statusList));
+            if (!body.getStatus().isEmpty()) {
+                predicates.add(root.get("status").in(status));
             }
 
-            if (presetStart != null && presetEnd != null) {
-                predicates.add(builder.between(root.get("preset"), presetStart, presetEnd));
+            if (body.getPreset() !=0) {
+                predicates.add(builder.between(root.get("preset"), dateAndTimeNow, dateAndTimeNowPlusPreset));
             }
 
             query.select(root).where(builder.and(predicates.toArray(new Predicate[] {})));
 
-            List<Patient> patients = entityManager.createQuery(query).getResultList();
+            List<PatientTasksDTO> patients = entityManager.createQuery(query).getResultList();
 
-            return null;
+            return patients;
         }
 
         else {
