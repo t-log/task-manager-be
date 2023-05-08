@@ -94,7 +94,7 @@ public class FilterController {
                 dateAndTimeNowPlusPreset = null;
             }
 
-            System.out.println("Date time values after check"+dateAndTimeNow+"Plus Preset"+dateAndTimeNowPlusPreset);
+            System.out.println("Date time values after check "+dateAndTimeNow+"Plus Preset "+dateAndTimeNowPlusPreset);
 
 
 //        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request

@@ -26,9 +26,9 @@ public interface FilterRepository extends JpaRepository<Tasks,Integer> , JpaSpec
                     "t.taskStatus as taskStatus \n" +
                     "FROM Patient p JOIN Tasks t ON p.id = t.patientId \n" +
                     "WHERE \n" +
-                    "t.priority IN(:priorityList) \n" +
-                    "AND t.taskStatus IN(:statusList) \n" +
-                    "AND t.dueDate BETWEEN :currentDateTime AND :plusPreset")   //OR t.priority IN(:priorityList) OR t.taskStatus IN(:statusList) OR t.dueDate BETWEEN :currentDateTime AND :plusPreset
+                    "t.priority IN(:priorityList)\n" +
+                    "AND t.taskStatus IN(:statusList)\n" +
+                    "AND t.dueDate BETWEEN :currentDateTime AND :plusPreset ")   //OR t.priority IN(:priorityList) OR t.taskStatus IN(:statusList) OR t.dueDate BETWEEN :currentDateTime AND :plusPreset
     List<PatientTasksDTO> searchPatientTasksFilter(@Param("priorityList") List<String> priority, @Param("statusList") List<String> status, @Param("currentDateTime")LocalDateTime dateTimeNow,@Param("plusPreset") LocalDateTime preset);  //findAll(Specification<PatientTasksDTO> spec)
 
 }
