@@ -7,6 +7,7 @@ import com.nest.app.entity.Tasks;
 import com.nest.app.services.FilterServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +103,7 @@ public class FilterController {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<PatientTasksDTO> query = builder.createQuery(PatientTasksDTO.class);
             Root<Patient> root = query.from(Patient.class);
-            Join<Patient, Tasks> tasks = root.join();
+            Join<Patient, Tasks> tasks = root.join("patient");
 
             List<Predicate> predicates = new ArrayList<>();
 
@@ -118,11 +119,10 @@ public class FilterController {
                 predicates.add(builder.between(root.get("preset"), dateAndTimeNow, dateAndTimeNowPlusPreset));
             }
 
-            query.select(root).where(builder.and(predicates.toArray(new Predicate[] {})));
+            query.where(predicates.toArray(new Predicate[0]));
 
-            List<PatientTasksDTO> patients = entityManager.createQuery(query).getResultList();
-
-            return patients;
+            TypedQuery<PatientTasksDTO> typedQuery = entityManager.createQuery(query);
+            return typedQuery.getResultList();
         }
 
         else {
