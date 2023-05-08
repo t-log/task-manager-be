@@ -28,7 +28,7 @@ public class FilterController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/view", method = RequestMethod.POST)
-    public List<PatientTasksDTO> dynamicFilter(@RequestParam(value = "filter") Boolean filterFlag,@RequestBody(required = false) RequestBodyDTO body){
+    public List dynamicFilter(@RequestParam(value = "filter") Boolean filterFlag, @RequestBody(required = false) RequestBodyDTO body){
 
         if(filterFlag){
             //checking whether the front end request is mapped to RequestBodyDTO type
@@ -41,42 +41,36 @@ public class FilterController {
 
             //Simplifying the request body for sanity :)
 
-            List<String> priority = new ArrayList<String>();
-            List<String> status = new ArrayList<String>();
+            List<String> priorityList = new ArrayList<String>();
+            List<String> statusList = new ArrayList<String>();
             List<LocalDateTime> preset = new ArrayList<LocalDateTime>();
 
             //For Priority
             if(body.getPriority().get(0).get("high")){
-                priority.add("High");
+                priorityList.add("High");
             }
-            else if(body.getPriority().get(1).get("medium")){
-                priority.add("Medium");
+            if(body.getPriority().get(1).get("medium")){
+                priorityList.add("Medium");
             }
-            else if(body.getPriority().get(2).get("low")){
-                priority.add("Low");
-            }
-            else{
-                priority.add("");
+            if(body.getPriority().get(2).get("low")){
+                priorityList.add("Low");
             }
 
             //For Status
             if(body.getStatus().get(0).get("not started")){
-                status.add("Not Started");
+                statusList.add("Not Started");
             }
-            else if(body.getStatus().get(1).get("on hold")){
-                status.add("On Hold");
+            if(body.getStatus().get(1).get("on hold")){
+                statusList.add("On Hold");
             }
-            else if(body.getStatus().get(2).get("in progress")){
-                status.add("In Progress");
+            if(body.getStatus().get(2).get("in progress")){
+                statusList.add("In Progress");
             }
-            else if(body.getStatus().get(3).get("completed")){
-                status.add("Completed");
+            if(body.getStatus().get(3).get("completed")){
+                statusList.add("Completed");
             }
-            else if(body.getStatus().get(4).get("over due")){
-                status.add("Overdue");
-            }
-            else{
-                status.add("");
+            if(body.getStatus().get(4).get("over due")){
+                statusList.add("Overdue");
             }
 
             //For Preset (aka dueDate)
@@ -90,7 +84,7 @@ public class FilterController {
             System.out.println("Preset Adjusted for between clause is "+preset);
 
 
-            System.out.println("Priority & status is "+ priority +""+status);
+            System.out.println("Priority & status is "+ priorityList +""+statusList);
 
             LocalDateTime trail = dateAndTimeNow.plusHours(body.getPreset());
 
@@ -101,27 +95,38 @@ public class FilterController {
 
             //criteria api
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<PatientTasksDTO> query = builder.createQuery(PatientTasksDTO.class);
+            CriteriaQuery query = builder.createQuery(Tasks.class);
             Root<Tasks> root = query.from(Tasks.class);
-            Join<Patient, Tasks> tasks = root.join("patient");
+            query.select(root);
+            Join<Patient, Tasks> patientTasks = root.join("patient");
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if (!body.getPriority().isEmpty()) {
-                predicates.add(root.get("priority").in(priority));
+            if ( !body.getPriority().isEmpty() ) {
+//                predicates.add(root.get("priority").in(priorityList));
+
+                builder.and(root.get("priority").in(priorityList));
             }
 
-            if (!body.getStatus().isEmpty()) {
-                predicates.add(root.get("taskStatus").in(status));
+            if ( !body.getStatus().isEmpty()) {
+//                predicates.add(root.get("taskStatus").in(statusList));
+                  builder.and(root.get("taskStatus").in(statusList));
             }
 
-            if (body.getPreset() !=0) {
-                predicates.add(builder.between(root.get("dueDate"), dateAndTimeNow, dateAndTimeNowPlusPreset));
+            if (!(body.getPreset() ==0)) {
+//                predicates.add(builder.between(root.get("dueDate"), dateAndTimeNow, dateAndTimeNowPlusPreset));
+                  builder.between(root.get("dueDate"),dateAndTimeNow, dateAndTimeNowPlusPreset);
             }
+
+
+            System.out.println("Predicates are"+predicates.toArray(new Predicate[0]));
 
             query.where(predicates.toArray(new Predicate[0]));
 
-            TypedQuery<PatientTasksDTO> typedQuery = entityManager.createQuery(query);
+
+
+            TypedQuery typedQuery = entityManager.createQuery(query);
+            System.out.println("Result List is"+ typedQuery.getResultList());
             return typedQuery.getResultList();
         }
 
