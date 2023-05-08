@@ -102,28 +102,25 @@ public class FilterController {
 
             List<Predicate> predicates = new ArrayList<>();
 
+
             if ( !body.getPriority().isEmpty() ) {
-//                predicates.add(root.get("priority").in(priorityList));
-
-                builder.and(root.get("priority").in(priorityList));
+                predicates.add(root.get("priority").in(priorityList));
             }
+            else{
 
+//                predicates.add(builder.isTrue(builder.literal(true))) ;
+            }
             if ( !body.getStatus().isEmpty()) {
-//                predicates.add(root.get("taskStatus").in(statusList));
-                  builder.and(root.get("taskStatus").in(statusList));
+                predicates.add(root.get("taskStatus").in(statusList));
             }
 
             if (!(body.getPreset() ==0)) {
-//                predicates.add(builder.between(root.get("dueDate"), dateAndTimeNow, dateAndTimeNowPlusPreset));
-                  builder.between(root.get("dueDate"),dateAndTimeNow, dateAndTimeNowPlusPreset);
+                predicates.add(builder.between(root.get("dueDate"), dateAndTimeNow, dateAndTimeNowPlusPreset));
             }
-
 
             System.out.println("Predicates are"+predicates.toArray(new Predicate[0]));
 
             query.where(predicates.toArray(new Predicate[0]));
-
-
 
             TypedQuery typedQuery = entityManager.createQuery(query);
             System.out.println("Result List is"+ typedQuery.getResultList());
