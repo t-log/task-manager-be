@@ -102,7 +102,7 @@ public class FilterController {
             //criteria api
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<PatientTasksDTO> query = builder.createQuery(PatientTasksDTO.class);
-            Root<Patient> root = query.from(Patient.class);
+            Root<Tasks> root = query.from(Tasks.class);
             Join<Patient, Tasks> tasks = root.join("patient");
 
             List<Predicate> predicates = new ArrayList<>();
@@ -112,11 +112,11 @@ public class FilterController {
             }
 
             if (!body.getStatus().isEmpty()) {
-                predicates.add(root.get("status").in(status));
+                predicates.add(root.get("taskStatus").in(status));
             }
 
             if (body.getPreset() !=0) {
-                predicates.add(builder.between(root.get("preset"), dateAndTimeNow, dateAndTimeNowPlusPreset));
+                predicates.add(builder.between(root.get("dueDate"), dateAndTimeNow, dateAndTimeNowPlusPreset));
             }
 
             query.where(predicates.toArray(new Predicate[0]));
