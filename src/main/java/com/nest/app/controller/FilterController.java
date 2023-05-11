@@ -75,7 +75,7 @@ public class FilterController {
             System.out.println("Preset Adjusted for between clause is "+preset);
 
 
-            System.out.println("Priority & status is "+ priority +""+status);
+            System.out.println("Priority & status is "+ priority +" "+status);
 
             LocalDateTime trail = dateAndTimeNow.plusHours(body.getPreset());
 
@@ -87,24 +87,12 @@ public class FilterController {
                 dateAndTimeNow = null;
                 dateAndTimeNowPlusPreset = null;
             }
-            if(body.getPriority().isEmpty()){
-                priority = null;
-            }
-            if(body.getStatus().isEmpty()){
-                status = null;
-            }
-
             System.out.println("Date time values after check "+dateAndTimeNow+"Plus Preset "+dateAndTimeNowPlusPreset);
-
-
-//        return body;   //made a DTO (RequestBodyDTO) and its mapping is compatible with request
             return filterService.dynamicFilter(priority,status,dateAndTimeNow,dateAndTimeNowPlusPreset);
         }
-
         else {
             return null;
         }
-
     }
 
     @CrossOrigin(origins = "*")
