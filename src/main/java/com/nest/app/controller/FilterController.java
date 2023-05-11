@@ -40,34 +40,28 @@ public class FilterController {
             if(body.getPriority().get(0).get("high")){
                 priority.add("High");
             }
-            else if(body.getPriority().get(1).get("medium")){
+            if(body.getPriority().get(1).get("medium")){
                 priority.add("Medium");
             }
-            else if(body.getPriority().get(2).get("low")){
+            if(body.getPriority().get(2).get("low")){
                 priority.add("Low");
-            }
-            else{
-                priority.add("");
             }
 
             //For Status
             if(body.getStatus().get(0).get("not started")){
                 status.add("Not Started");
             }
-            else if(body.getStatus().get(1).get("on hold")){
+            if(body.getStatus().get(1).get("on hold")){
                 status.add("On Hold");
             }
-            else if(body.getStatus().get(2).get("in progress")){
+            if(body.getStatus().get(2).get("in progress")){
                 status.add("In Progress");
             }
-            else if(body.getStatus().get(3).get("completed")){
+            if(body.getStatus().get(3).get("completed")){
                 status.add("Completed");
             }
-            else if(body.getStatus().get(4).get("over due")){
+            if(body.getStatus().get(4).get("over due")){
                 status.add("Overdue");
-            }
-            else{
-                status.add("");
             }
 
             //For Preset (aka dueDate)
@@ -92,6 +86,12 @@ public class FilterController {
                 System.out.println("Preset value is "+body.getPreset());
                 dateAndTimeNow = null;
                 dateAndTimeNowPlusPreset = null;
+            }
+            if(body.getPriority().isEmpty()){
+                priority = null;
+            }
+            if(body.getStatus().isEmpty()){
+                status = null;
             }
 
             System.out.println("Date time values after check "+dateAndTimeNow+"Plus Preset "+dateAndTimeNowPlusPreset);
