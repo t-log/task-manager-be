@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface FilterRepository extends JpaRepository<Tasks,Integer> , JpaSpecificationExecutor<PatientTasksDTO> {
     @Query(value = "SELECT p.age as age, p.bed_no as bedNo, p.facility as facility, p.full_name as fullName, p.physician_name as physicianName, p.room_no as roomNo, p.unit_name as unitName,t.comment as comment, t.description as description, t.due_date as dueDate, t.priority as priority, t.task_status as taskStatus FROM patient p JOIN tasks t ON p.id = t.patient_id",nativeQuery = true)
-    List<PatientTasksDTO> viewDetails();  //List<Map<String,String>>
+    List<PatientTasksDTO> viewDetails();
     @Query(value = "SELECT " +
                     "p.age as age, p.bedNo as bedNo, p.facility as facility, " +
                     "p.fullName as fullName, p.physicianName as physicianName, " +

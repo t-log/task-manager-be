@@ -22,6 +22,7 @@ public class FilterController {
     public List<PatientTasksDTO> dynamicFilter(@RequestParam(value = "filter") Boolean filterFlag,@RequestBody(required = false) RequestBodyDTO body){
 
         if(filterFlag){
+
             //checking whether the front end request is mapped to RequestBodyDTO type
             System.out.println(body.getPriority());
             System.out.println(body.getStatus());
@@ -31,7 +32,6 @@ public class FilterController {
             System.out.println("Body Of Filter "+body);
 
             //Simplifying the request body for sanity :)
-
             List<String> priority = new ArrayList<String>();
             List<String> status = new ArrayList<String>();
             List<LocalDateTime> preset = new ArrayList<LocalDateTime>();
@@ -73,7 +73,6 @@ public class FilterController {
             preset.add(dateAndTimeNow.plusHours(body.getPreset()));
             System.out.println("Preset value is "+body.getPreset());
             System.out.println("Preset Adjusted for between clause is "+preset);
-
 
             System.out.println("Priority & status is "+ priority +" "+status);
 
